@@ -2,6 +2,7 @@
 
 from flask import Flask, request, Response
 from flask_cors import CORS as flask_cors
+from tool_descriptions import tool_descriptions
 import subprocess
 
 app = Flask('cis-server')
@@ -22,6 +23,11 @@ def run_nmap():
       if not line: break
       yield line
   return Response(generate(), mimetype='text/plain')
-
+@app.route('/about', methods=['POST'])
+def about():
+  data = request.get_json()
+  tool = data["tool"]
+  description = tool_descriptions[tool]
+  return Response(description, mimetype='text/plain')
 if __name__ == '__main__':
   app.run(host="0.0.0.0")
