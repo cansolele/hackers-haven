@@ -10,7 +10,7 @@ const Header = () => {
   const [modalDescription, setModalDescription] = useState("");
   const location = useLocation();
   const titles = {
-    "/": "WEB KALI TOOLS",
+    "/": "HACKER'S HAVEN",
     "/nmap": "NMAP",
     "/nikto": "NIKTO",
   };

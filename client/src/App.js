@@ -3,8 +3,8 @@ import MainPage from "./components/MainPage/MainPage";
 import Header from "./components/Header/Header";
 import Aside from "./components/Aside/Aside";
 import Footer from "./components/Footer/Footer";
-import Nikto from "./components/KaliTools/nikto/Nikto";
-import Nmap from "./components/KaliTools/nmap/Nmap";
+import Nikto from "./components/Tools/nikto/Nikto";
+import Nmap from "./components/Tools/nmap/Nmap";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 const App = () => {
