@@ -5,3 +5,16 @@
 .output {
   width: 80%;
 }
+.flags_container {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #34354163;
+}
+
+.flags_container p {
+  align-self: center;
+}
+.accordion {
+  max-width: 30%;
+  background-color: #343541;
+}
