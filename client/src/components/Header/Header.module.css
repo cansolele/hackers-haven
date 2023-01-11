@@ -6,9 +6,27 @@
   align-items: center;
   justify-content: center;
 }
+.mp_btn {
+  position: absolute;
+  cursor: pointer;
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  top: 0;
+  left: 0;
+}
+
+.mp_btn:active .hh_logo {
+  transform: scale(0.96);
+}
+.hh_logo {
+  position: relative;
+  height: 50px;
+}
 .tool_name {
   text-align: center;
-  color: #ffa500;
+  color: #ffa700;
 }
 .button_help {
   background-color: transparent;
