@@ -1,5 +1,4 @@
 .aside {
-  background-color: #343541;
   position: absolute;
   left: 0;
   top: 60px;
@@ -27,7 +26,6 @@
 .tool_select p {
   font-weight: bold;
   font-size: 14px;
-  color: #e6e6e6;
 }
 .tool_select:first-child {
   margin-top: 0;

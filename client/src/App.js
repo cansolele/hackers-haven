@@ -5,35 +5,44 @@ import Aside from "./components/Aside/Aside";
 import Footer from "./components/Footer/Footer";
 import Nikto from "./components/Tools/nikto/Nikto";
 import Nmap from "./components/Tools/nmap/Nmap";
+import Theme from "./Theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import { Box } from "@mui/material";
+
 const App = () => {
   const [inputNmapAddress, setInputNmapAddress] = useState("");
   const [nmapFlags, setNmapFlags] = useState([]);
   const [nmapOutput, setNmapOutput] = useState("");
+  const [mode, setMode] = useState("dark");
   return (
-    <div className="app">
-      <Header />
-      <Aside />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route
-          path="/nmap"
-          element={
-            <Nmap
-              inputAddress={inputNmapAddress}
-              setInputAddress={setInputNmapAddress}
-              flags={nmapFlags}
-              setFlags={setNmapFlags}
-              output={nmapOutput}
-              setOutput={setNmapOutput}
-            />
-          }
-        />
-        <Route path="/nikto" element={<Nikto />} />
-      </Routes>
-      <Footer />
-    </div>
+    <ThemeProvider theme={Theme({ mode })}>
+      <CssBaseline />
+      <Box className="app">
+        <Header mode={mode} setMode={setMode} />
+        <Aside />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route
+            path="/nmap"
+            element={
+              <Nmap
+                inputAddress={inputNmapAddress}
+                setInputAddress={setInputNmapAddress}
+                flags={nmapFlags}
+                setFlags={setNmapFlags}
+                output={nmapOutput}
+                setOutput={setNmapOutput}
+              />
+            }
+          />
+          <Route path="/nikto" element={<Nikto />} />
+        </Routes>
+        <Footer />
+      </Box>
+    </ThemeProvider>
   );
 };
 
