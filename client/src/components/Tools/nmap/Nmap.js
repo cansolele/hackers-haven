@@ -1,4 +1,5 @@
 import style from "./Nmap.module.css";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -8,15 +9,15 @@ import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const Nmap = ({
-  inputAddress,
-  setInputAddress,
-  flags,
-  setFlags,
-  output,
-  setOutput,
-}) => {
+const Nmap = () => {
+  const [inputAddress, setInputAddress] = useState("");
+  const [flags, setFlags] = useState([]);
+  const [output, setOutput] = useState("");
   const handleSubmit = async () => {
     const response = await fetch("http://192.168.54.38:5000/run-nmap", {
       method: "POST",
@@ -52,8 +53,8 @@ const Nmap = ({
     }
   };
   return (
-    <div className={style.nmap}>
-      <div>
+    <Box className={style.nmap}>
+      <Box className={style.input_container}>
         <TextField
           value={inputAddress}
           required={true}
@@ -73,114 +74,156 @@ const Nmap = ({
           Start
         </Button>
 
-        <FormGroup sx={{ color: "text.secondary" }}>
-          <div className={style.flags_container}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sC")}
-                  onChange={() => handleFlagChange("-sC")}
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Nmap Scan Techniques</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FormGroup sx={{ color: "text.secondary" }}>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sS")}
+                      onChange={() => handleFlagChange("-sS")}
+                    />
+                  }
+                  label="-sS"
                 />
-              }
-              label="-sC"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-T4")}
-                  onChange={() => handleFlagChange("-T4")}
+                <Typography>TCP SYN port scan (Default)</Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sT")}
+                      onChange={() => handleFlagChange("-sT")}
+                    />
+                  }
+                  label="-sT"
                 />
-              }
-              label="-T4"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-A")}
-                  onChange={() => handleFlagChange("-A")}
+                <Typography>
+                  TCP connect port scan (Default without root privilege)
+                </Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sU")}
+                      onChange={() => handleFlagChange("-sU")}
+                    />
+                  }
+                  label="-sU"
                 />
-              }
-              label="-A"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sS")}
-                  onChange={() => handleFlagChange("-sS")}
+                <Typography>UDP port scan</Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sA")}
+                      onChange={() => handleFlagChange("-sA")}
+                    />
+                  }
+                  label="-sA"
                 />
-              }
-              label="-sS"
-            />
-            <Typography>TCP SYN port scan (Default)</Typography>
-          </div>
-          <div className={style.flags_container}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sT")}
-                  onChange={() => handleFlagChange("-sT")}
+                <Typography>TCP ACK port scan</Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sW")}
+                      onChange={() => handleFlagChange("-sW")}
+                    />
+                  }
+                  label="-sW"
                 />
-              }
-              label="-sT"
-            />
-            <p>TCP connect port scan (Default without root privilege)</p>
-          </div>
-          <Box className={style.flags_container}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sU")}
-                  onChange={() => handleFlagChange("-sU")}
+                <Typography>TCP Window port scan</Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sM")}
+                      onChange={() => handleFlagChange("-sM")}
+                    />
+                  }
+                  label="-sM"
                 />
-              }
-              label="-sU"
-            />
-            <Typography>UDP port scan</Typography>
-          </Box>
-          <div className={style.flags_container}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sA")}
-                  onChange={() => handleFlagChange("-sA")}
+                <Typography>TCP Maimon port scan</Typography>
+              </Box>
+            </FormGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Host Discovery</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FormGroup sx={{ color: "text.secondary" }}>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sL")}
+                      onChange={() => handleFlagChange("-sL")}
+                    />
+                  }
+                  label="-sL"
                 />
-              }
-              label="-sA"
-            />
-            <p>TCP ACK port scan</p>
-          </div>
-          <div className={style.flags_container}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sW")}
-                  onChange={() => handleFlagChange("-sW")}
+                <Typography>No Scan. List targets only</Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-sn")}
+                      onChange={() => handleFlagChange("-sn")}
+                    />
+                  }
+                  label="-sn"
                 />
-              }
-              label="-sW"
-            />
-            <p>TCP Window port scan</p>
-          </div>
-          <div className={style.flags_container}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={flags.includes("-sM")}
-                  onChange={() => handleFlagChange("-sM")}
+                <Typography>
+                  Disable port scanning. Host discovery only.
+                </Typography>
+              </Box>
+              <Box className={style.flags_container}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={flags.includes("-Pn")}
+                      onChange={() => handleFlagChange("-Pn")}
+                    />
+                  }
+                  label="-Pn"
                 />
-              }
-              label="-sM"
-            />
-            <p>TCP Maimon port scan</p>
-          </div>
-        </FormGroup>
-        <h1>
-          nmap {inputAddress} {flags.join(" ")}
-        </h1>
-      </div>
-      <div>
+                <Typography>Disable host discovery. Port scan only.</Typography>
+              </Box>
+            </FormGroup>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+      <Box className={style.output_container}>
         <TextField
           label="Nmap output:"
+          sx={{
+            "& .MuiFormLabel-root": {
+              fontSize: "30px",
+            },
+            "& .MuiInputBase-root": {
+              paddingTop: "40px",
+            },
+          }}
           multiline
           value={output}
           variant="filled"
@@ -188,14 +231,14 @@ const Nmap = ({
           InputProps={{
             readOnly: true,
           }}
+          rows={20}
           maxRows={20}
         />
-
         <Button onClick={handleSave} variant="contained" endIcon={<SaveIcon />}>
           SAVE
         </Button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

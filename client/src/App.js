@@ -13,9 +13,6 @@ import { Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 
 const App = () => {
-  const [inputNmapAddress, setInputNmapAddress] = useState("");
-  const [nmapFlags, setNmapFlags] = useState([]);
-  const [nmapOutput, setNmapOutput] = useState("");
   const [mode, setMode] = useState("dark");
   return (
     <ThemeProvider theme={Theme({ mode })}>
@@ -25,19 +22,7 @@ const App = () => {
         <Aside />
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route
-            path="/nmap"
-            element={
-              <Nmap
-                inputAddress={inputNmapAddress}
-                setInputAddress={setInputNmapAddress}
-                flags={nmapFlags}
-                setFlags={setNmapFlags}
-                output={nmapOutput}
-                setOutput={setNmapOutput}
-              />
-            }
-          />
+          <Route path="/nmap" element={<Nmap />} />
           <Route path="/nikto" element={<Nikto />} />
         </Routes>
         <Footer />
