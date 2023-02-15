@@ -8,12 +8,16 @@ import Nmap from "./components/Tools/nmap/Nmap";
 import Theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 
 const App = () => {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState(localStorage.getItem("mode") || "dark");
+  useEffect(() => {
+    localStorage.setItem("mode", mode);
+  }, [mode]);
+
   return (
     <ThemeProvider theme={Theme({ mode })}>
       <CssBaseline />

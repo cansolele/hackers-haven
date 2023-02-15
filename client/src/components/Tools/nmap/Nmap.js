@@ -1,5 +1,5 @@
 import style from "./Nmap.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -13,13 +13,29 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import config from "../../../config";
 
 const Nmap = () => {
-  const [inputAddress, setInputAddress] = useState("");
-  const [flags, setFlags] = useState([]);
-  const [output, setOutput] = useState("");
+  const [inputAddress, setInputAddress] = useState(
+    localStorage.getItem("addressNMAP") || ""
+  );
+  const [flags, setFlags] = useState(
+    JSON.parse(localStorage.getItem("flagsNMAP")) || []
+  );
+  const [output, setOutput] = useState(
+    localStorage.getItem("outputNMAP") || ""
+  );
+  useEffect(() => {
+    localStorage.setItem("addressNMAP", inputAddress);
+  }, [inputAddress]);
+  useEffect(() => {
+    localStorage.setItem("flagsNMAP", JSON.stringify(flags));
+  }, [flags]);
+  useEffect(() => {
+    localStorage.setItem("outputNMAP", output);
+  }, [output]);
   const handleSubmit = async () => {
-    const response = await fetch("http://192.168.54.38:5000/run-nmap", {
+    const response = await fetch(`${config.apiURL}/run-nmap`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
