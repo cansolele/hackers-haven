@@ -4,31 +4,67 @@ import nikto_icon from "./nikto_icon.png";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import { useState, useEffect } from "react";
+
 const Aside = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const getButtonClass = (path) => {
-    if (location.pathname === path) {
-      return `${style.tool_select} ${style.tool_select_active}`;
-    }
-    return style.tool_select;
+  const [activeButton, setActiveButton] = useState(location.pathname);
+
+  useEffect(() => {
+    setActiveButton(location.pathname);
+  }, [location]);
+
+  const handleButtonClick = (buttonId) => {
+    setActiveButton(buttonId);
+    navigate(buttonId);
   };
+
+  const styleButton = (path) => ({
+    width: "70px",
+    height: "70px",
+    padding: 0,
+    borderRadius: 0,
+    margin: "10px auto",
+    marginBottom: 0,
+    ...(activeButton === path && {
+      border: "3px solid",
+      borderColor: "secondary.main",
+    }),
+  });
+
   return (
-    <Box sx={{ bgcolor: "background.paper" }} className={style.aside}>
-      <button
-        onClick={() => navigate("/nmap")}
-        className={getButtonClass("/nmap")}
+    <Box sx={{ bgcolor: "primary.main" }} className={style.aside}>
+      <IconButton
+        sx={{
+          ...styleButton("/nmap"),
+          marginTop: 0,
+        }}
+        onClick={() => handleButtonClick("/nmap")}
       >
         <img className={style.nmap_icon} src={nmap_icon} alt="nmap icon" />
-        <Typography color="white">nmap</Typography>
-      </button>
-      <button
-        onClick={() => navigate("/nikto")}
-        className={getButtonClass("/nikto")}
+      </IconButton>
+      <Typography
+        variant="subtitle1"
+        sx={{ textAlign: "center", color: "text.title" }}
+      >
+        Nmap
+      </Typography>
+      <IconButton
+        sx={{
+          ...styleButton("/nikto"),
+        }}
+        onClick={() => handleButtonClick("/nikto")}
       >
         <img className={style.nmap_icon} src={nikto_icon} alt="nikto icon" />
-        <Typography color="white">nikto</Typography>
-      </button>
+      </IconButton>
+      <Typography
+        variant="subtitle1"
+        sx={{ textAlign: "center", color: "text.title" }}
+      >
+        Nikto
+      </Typography>
     </Box>
   );
 };

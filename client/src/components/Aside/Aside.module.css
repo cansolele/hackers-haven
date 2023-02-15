@@ -13,27 +13,8 @@
 .aside::-webkit-scrollbar {
   width: 0;
 }
-.tool_select {
-  background-color: transparent;
-  width: 70px;
-  height: 70px;
-  margin: 10px auto;
-  cursor: pointer;
-}
-.tool_select_active {
-  border: 3px #ffa500 solid;
-}
-.tool_select p {
-  font-weight: bold;
-  font-size: 14px;
-}
-.tool_select:first-child {
-  margin-top: 0;
-}
+
 .nmap_icon {
   width: 100%;
   height: 100%;
-}
-.nmap_icon:active {
-  border: 1px solid transparent;
 }

@@ -4,14 +4,17 @@ const Theme = ({ mode }) => {
     palette: {
       mode: mode,
       primary: {
-        main: "#3f51b5",
+        main: mode === "dark" ? "#366096" : "#3f51b5",
       },
       secondary: {
-        main: "#f50057",
+        main: mode === "dark" ? "#24344d" : "#f50057",
       },
       background: {
-        default: mode === "dark" ? "#444654" : "#fff",
-        paper: mode === "dark" ? "#343541" : "#3f51b5",
+        default: mode === "dark" ? "#192231" : "#fafafa",
+        paper: mode === "dark" ? "#24344d" : "#fff",
+      },
+      text: {
+        title: mode === "dark" ? "#FFF" : "#FFF",
       },
     },
   });
