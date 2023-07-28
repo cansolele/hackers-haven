@@ -1,33 +1,63 @@
-#!/usr/bin/env python
-
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_file
+import os
 from flask_cors import CORS as flask_cors
 from tool_descriptions import tool_descriptions
 import subprocess
+from exploits_table import exploits_table_routes
 
-app = Flask('cis-server')
+app = Flask("cis-server")
 flask_cors(app)
 
-@app.route('/run-nmap', methods=['POST'])
+# Create necessary directories if they don't exist
+os.makedirs(os.path.join(os.path.dirname(__file__), "uploads"), exist_ok=True)
+os.makedirs(os.path.join(os.path.dirname(__file__), "info"), exist_ok=True)
+os.makedirs(
+    os.path.join(os.path.dirname(__file__), "output", "exploits_table"), exist_ok=True
+)
+
+# Register the exploits_table_routes Blueprint
+app.register_blueprint(exploits_table_routes)
+
+
+# Route to handle file downloads
+@app.route("/download/<timestamp>", methods=["GET"])
+def download_file(timestamp):
+    output_dir = os.path.join(os.path.dirname(__file__), "output", "exploits_table")
+    output_file = os.path.join(output_dir, f"Exploits_{timestamp}.xlsx")
+
+    if not os.path.exists(output_file):
+        return "File not found", 404
+
+    return send_file(output_file, as_attachment=True)
+
+
+@app.route("/run-nmap", methods=["POST"])
 def run_nmap():
-  data = request.get_json()
-  proc = subprocess.Popen(
-    "nmap " + ' '.join(data["flags"]) + ' ' + data["ip"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    shell=True
-  )
-  def generate():
-    while True:
-      line = proc.stdout.readline()
-      if not line: break
-      yield line
-  return Response(generate(), mimetype='text/plain')
-@app.route('/about', methods=['POST'])
+    data = request.get_json()
+    proc = subprocess.Popen(
+        "nmap " + " ".join(data["flags"]) + " " + data["ip"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=True,
+    )
+
+    def generate():
+        while True:
+            line = proc.stdout.readline()
+            if not line:
+                break
+            yield line
+
+    return Response(generate(), mimetype="text/plain")
+
+
+@app.route("/about", methods=["POST"])
 def about():
-  data = request.get_json()
-  tool = data["tool"]
-  description = tool_descriptions[tool]
-  return Response(description, mimetype='text/plain')
-if __name__ == '__main__':
-  app.run(host="0.0.0.0")
+    data = request.get_json()
+    tool = data["tool"]
+    description = tool_descriptions[tool]
+    return Response(description, mimetype="text/plain")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")

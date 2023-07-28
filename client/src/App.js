@@ -5,6 +5,7 @@ import Aside from "./components/Aside/Aside";
 import Footer from "./components/Footer/Footer";
 import Nikto from "./components/Tools/nikto/Nikto";
 import Nmap from "./components/Tools/nmap/Nmap";
+import ReportCreator from "./components/Tools/report-creator/ReportCreator";
 import Theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/nmap" element={<Nmap />} />
           <Route path="/nikto" element={<Nikto />} />
+          <Route path="/report-creator" element={<ReportCreator/>}/>
         </Routes>
         <Footer />
       </Box>

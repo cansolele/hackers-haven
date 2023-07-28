@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import hh_logo from "./hh_logo.svg";
 import { Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
+import config from "../../config";
 
 const Header = ({ mode, setMode }) => {
   const [modalWindow, setModalWindow] = useState(false);
@@ -20,12 +21,14 @@ const Header = ({ mode, setMode }) => {
     "/": "HACKER'S HAVEN",
     "/nmap": "NMAP",
     "/nikto": "NIKTO",
+    "/report-creator": "Report Creator"
   };
   const toggleColorMode = () => {
     mode === "dark" ? setMode("light") : setMode("dark");
   };
   const handleSubmit = async () => {
-    const url = "http://192.168.54.38:5000/about";
+    const url = `${config.apiURL}/about`;
+    
     const payload = {
       tool: location.pathname,
     };

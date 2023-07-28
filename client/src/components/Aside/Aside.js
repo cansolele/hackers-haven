@@ -1,6 +1,7 @@
 import style from "./Aside.module.css";
-import nmap_icon from "./nmap_icon.jpg";
-import nikto_icon from "./nikto_icon.png";
+import nmap_icon from "./icons/nmap_icon.jpg";
+import nikto_icon from "./icons/nikto_icon.png";
+import rc_icon from "./icons/rc_icon.png"
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -64,6 +65,21 @@ const Aside = () => {
         sx={{ textAlign: "center", color: "text.title" }}
       >
         Nikto
+      </Typography>
+      <IconButton
+        sx={{
+          ...styleButton("/report-creator"),
+          marginTop: 0,
+        }}
+        onClick={() => handleButtonClick("/report-creator")}
+      >
+        <img className={style.nmap_icon} src={rc_icon} alt="rc icon" />
+      </IconButton>
+      <Typography
+        variant="subtitle1"
+        sx={{ textAlign: "center", color: "text.title" }}
+      >
+        Report Creator
       </Typography>
     </Box>
   );
