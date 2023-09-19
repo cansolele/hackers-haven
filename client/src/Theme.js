@@ -1,6 +1,8 @@
 import { createTheme } from "@mui/material/styles";
-const Theme = ({ mode }) => {
-  const Theme = createTheme({
+import { useMemo } from "react";
+
+const createCustomTheme = (mode) => {
+  return createTheme({
     palette: {
       mode: mode,
       primary: {
@@ -18,6 +20,12 @@ const Theme = ({ mode }) => {
       },
     },
   });
-  return Theme;
 };
+
+const Theme = ({ mode }) => {
+  const theme = useMemo(() => createCustomTheme(mode), [mode]);
+
+  return theme;
+};
+
 export default Theme;
