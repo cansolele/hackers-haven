@@ -15,23 +15,43 @@ import { Box } from "@mui/material";
 
 const App = () => {
   const [mode, setMode] = useState(localStorage.getItem("mode") || "dark");
+  const [currentLanguage, setCurrentLanguage] = useState(
+    localStorage.getItem("language") || "ENG"
+  );
   useEffect(() => {
     localStorage.setItem("mode", mode);
   }, [mode]);
+  useEffect(() => {
+    localStorage.setItem("language", currentLanguage);
+  }, [currentLanguage]);
 
   return (
     <ThemeProvider theme={Theme({ mode })}>
       <CssBaseline />
       <Box className="app">
-        <Header mode={mode} setMode={setMode} />
+        <Header
+          mode={mode}
+          setMode={setMode}
+          currentLanguage={currentLanguage}
+          setCurrentLanguage={setCurrentLanguage}
+        />
         <Aside />
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/nmap" element={<Nmap />} />
-          <Route path="/nikto" element={<Nikto />} />
-          <Route path="/report-creator" element={<ReportCreator/>}/>
+          <Route
+            path="/nmap"
+            element={<Nmap currentLanguage={currentLanguage} />}
+          />
+          <Route
+            path="/nikto"
+            element={<Nikto currentLanguage={currentLanguage} />}
+          />
+          <Route
+            path="/report-creator"
+            element={<ReportCreator currentLanguage={currentLanguage} />}
+          />
         </Routes>
-        <Footer />
+        <Footer currentLanguage={currentLanguage} />
       </Box>
     </ThemeProvider>
   );

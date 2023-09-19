@@ -15,7 +15,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import config from "../../../config";
 
-const Nmap = () => {
+const Nmap = ({ currentLanguage }) => {
   const [inputAddress, setInputAddress] = useState(
     localStorage.getItem("addressNMAP") || ""
   );
@@ -75,9 +75,12 @@ const Nmap = () => {
           value={inputAddress}
           required={true}
           onChange={(e) => setInputAddress(e.target.value)}
-          label="Address"
+          label={currentLanguage === "ENG" ? "Address" : "Адрес"}
           variant="standard"
-          helperText="example: scanme.nmap.org or 192.168.30.1/24"
+          helperText={
+            (currentLanguage === "ENG" ? "example: " : "например: ") +
+            "scanme.nmap.org or 192.168.30.1/24"
+          }
         />
 
         <Button
@@ -87,7 +90,7 @@ const Nmap = () => {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Start
+          {currentLanguage === "ENG" ? "start" : "старт"}
         </Button>
 
         <Accordion>
@@ -96,7 +99,11 @@ const Nmap = () => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Nmap Scan Techniques</Typography>
+            <Typography>
+              {currentLanguage === "ENG"
+                ? "Nmap Scan Techniques"
+                : "Методы сканирования Nmap"}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <FormGroup sx={{ color: "text.secondary" }}>
@@ -110,6 +117,7 @@ const Nmap = () => {
                   }
                   label="-sS"
                 />
+
                 <Typography>TCP SYN port scan (Default)</Typography>
               </Box>
               <Box className={style.flags_container}>
@@ -172,7 +180,11 @@ const Nmap = () => {
                   }
                   label="-sM"
                 />
-                <Typography>TCP Maimon port scan</Typography>
+                <Typography>
+                  {currentLanguage === "ENG"
+                    ? "TCP Maimon port scan"
+                    : "Сканирование порта TCP Maimon"}
+                </Typography>
               </Box>
             </FormGroup>
           </AccordionDetails>
@@ -183,7 +195,9 @@ const Nmap = () => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Host Discovery</Typography>
+            <Typography>
+              {currentLanguage === "ENG" ? "Host Discovery" : "Поиск хостов"}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <FormGroup sx={{ color: "text.secondary" }}>
@@ -231,7 +245,7 @@ const Nmap = () => {
       </Box>
       <Box className={style.output_container}>
         <TextField
-          label="Nmap output:"
+          label={currentLanguage === "ENG" ? "Output Nmap" : "Вывод Nmap"}
           sx={{
             "& .MuiFormLabel-root": {
               fontSize: "30px",
@@ -251,7 +265,7 @@ const Nmap = () => {
           maxRows={20}
         />
         <Button onClick={handleSave} variant="contained" endIcon={<SaveIcon />}>
-          SAVE
+          {currentLanguage === "ENG" ? "Save" : "Сохранить"}
         </Button>
       </Box>
     </Box>

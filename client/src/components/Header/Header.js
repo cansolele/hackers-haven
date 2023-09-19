@@ -6,13 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import hh_logo from "./hh_logo.svg";
 import { Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import config from "../../config";
 
-const Header = ({ mode, setMode }) => {
+const Header = ({ mode, setMode, currentLanguage, setCurrentLanguage }) => {
   const [modalWindow, setModalWindow] = useState(false);
   const [modalDescription, setModalDescription] = useState("");
   const location = useLocation();
@@ -21,14 +22,19 @@ const Header = ({ mode, setMode }) => {
     "/": "HACKER'S HAVEN",
     "/nmap": "NMAP",
     "/nikto": "NIKTO",
-    "/report-creator": "Report Creator"
+    "/report-creator": "Report Creator",
   };
   const toggleColorMode = () => {
     mode === "dark" ? setMode("light") : setMode("dark");
   };
+  const toggleLanguage = () => {
+    currentLanguage === "ENG"
+      ? setCurrentLanguage("RU")
+      : setCurrentLanguage("ENG");
+  };
   const handleSubmit = async () => {
     const url = `${config.apiURL}/about`;
-    
+
     const payload = {
       tool: location.pathname,
     };
@@ -56,32 +62,31 @@ const Header = ({ mode, setMode }) => {
         <img src={hh_logo} alt="hh_logo" className={style.hh_logo} />
       </Button>
 
-      <Typography
-        variant="h3"
-        sx={{ color: "text.title" }}
-        className={style.tool_name}
-      >
+      <Typography variant="h3" sx={{ color: "text.title" }}>
         {titles[location.pathname]}
       </Typography>
-      <IconButton
-        size="large"
+      <Stack
+        direction="row"
+        spacing={1}
         sx={{ position: "absolute", right: 0 }}
-        onClick={handleSubmit}
-        color="inherit"
       >
-        <QuestionMarkIcon fontSize="large" htmlColor="white" />
-      </IconButton>
-      <IconButton
-        sx={{ mr: "50px", position: "absolute", right: 0 }}
-        onClick={toggleColorMode}
-        color="inherit"
-      >
-        {mode === "dark" ? (
-          <Brightness7Icon fontSize="large" />
-        ) : (
-          <Brightness4Icon fontSize="large" htmlColor="white" />
-        )}
-      </IconButton>
+        <Button onClick={toggleLanguage}>
+          <Typography sx={{ color: "text.title", fontSize: "30px" }}>
+            {currentLanguage}
+          </Typography>
+        </Button>
+        <IconButton onClick={toggleColorMode} color="inherit">
+          {mode === "dark" ? (
+            <Brightness7Icon fontSize="large" />
+          ) : (
+            <Brightness4Icon fontSize="large" htmlColor="white" />
+          )}
+        </IconButton>
+        <IconButton size="large" onClick={handleSubmit} color="inherit">
+          <QuestionMarkIcon fontSize="large" htmlColor="white" />
+        </IconButton>
+      </Stack>
+
       <Modal open={modalWindow} onClose={handleClose}>
         <Box
           sx={{
