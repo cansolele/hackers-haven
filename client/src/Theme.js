@@ -1,31 +1,55 @@
 import { createTheme } from "@mui/material/styles";
-import { useMemo } from "react";
+
+const themeOptions = {
+  palette: {
+    primary: {
+      main: "#3f51b5",
+    },
+    secondary: {
+      main: "#f50057",
+    },
+    background: {
+      default: "#fafafa",
+      paper: "#fff",
+    },
+    text: {
+      title: "#FFF",
+    },
+  },
+};
 
 const createCustomTheme = (mode) => {
-  return createTheme({
-    palette: {
-      mode: mode,
-      primary: {
-        main: mode === "dark" ? "#366096" : "#3f51b5",
-      },
-      secondary: {
-        main: mode === "dark" ? "#24344d" : "#f50057",
-      },
-      background: {
-        default: mode === "dark" ? "#192231" : "#fafafa",
-        paper: mode === "dark" ? "#24344d" : "#fff",
-      },
-      text: {
-        title: mode === "dark" ? "#FFF" : "#FFF",
-      },
+  const primaryMain = mode === "dark" ? "#366096" : "#3f51b5";
+  const secondaryMain = mode === "dark" ? "#24344d" : "#f50057";
+  const backgroundDefault = mode === "dark" ? "#192231" : "#fafafa";
+  const backgroundPaper = mode === "dark" ? "#24344d" : "#fff";
+  const textTitle = "#FFF";
+
+  const palette = {
+    ...themeOptions.palette,
+    mode,
+    primary: {
+      ...themeOptions.palette.primary,
+      main: primaryMain,
     },
-  });
+    secondary: {
+      ...themeOptions.palette.secondary,
+      main: secondaryMain,
+    },
+    background: {
+      ...themeOptions.palette.background,
+      default: backgroundDefault,
+      paper: backgroundPaper,
+    },
+    text: {
+      ...themeOptions.palette.text,
+      title: textTitle,
+    },
+  };
+
+  return createTheme({ palette });
 };
 
-const Theme = ({ mode }) => {
-  const theme = useMemo(() => createCustomTheme(mode), [mode]);
-
-  return theme;
-};
+const Theme = ({ mode }) => createCustomTheme(mode);
 
 export default Theme;

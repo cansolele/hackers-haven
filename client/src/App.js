@@ -1,6 +1,5 @@
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Box } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { useState, useEffect } from "react";
@@ -18,47 +17,52 @@ const ReportCreator = lazy(() =>
 );
 
 const App = () => {
-  const [mode, setMode] = useState(localStorage.getItem("mode") || "dark");
-  const [currentLanguage, setCurrentLanguage] = useState(
-    localStorage.getItem("language") || "ENG"
+  // Initial mode state
+  const [initialMode, setInitialMode] = useState(
+    () => localStorage.getItem("mode") || "dark"
   );
 
-  useEffect(() => {
-    localStorage.setItem("mode", mode);
-  }, [mode]);
+  // Initial language state
+  const [currentLanguage, setCurrentLanguage] = useState(
+    () => localStorage.getItem("language") || "ENG"
+  );
 
+  // Update mode in local storage
+  useEffect(() => {
+    localStorage.setItem("mode", initialMode);
+  }, [initialMode]);
+
+  // Update language in local storage
   useEffect(() => {
     localStorage.setItem("language", currentLanguage);
   }, [currentLanguage]);
 
   return (
-    <ThemeProvider theme={Theme({ mode })}>
+    <ThemeProvider theme={Theme({ mode: initialMode })}>
       <CssBaseline />
       <Box className="app">
         <Header
-          mode={mode}
-          setMode={setMode}
+          mode={initialMode}
+          setMode={setInitialMode}
           currentLanguage={currentLanguage}
           setCurrentLanguage={setCurrentLanguage}
         />
         <Aside />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route
-              path="/nmap"
-              element={<Nmap currentLanguage={currentLanguage} />}
-            />
-            <Route
-              path="/nikto"
-              element={<Nikto currentLanguage={currentLanguage} />}
-            />
-            <Route
-              path="/report-creator"
-              element={<ReportCreator currentLanguage={currentLanguage} />}
-            />
-          </Routes>
-        </Suspense>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route
+            path="/nmap"
+            element={<Nmap currentLanguage={currentLanguage} />}
+          />
+          <Route
+            path="/nikto"
+            element={<Nikto currentLanguage={currentLanguage} />}
+          />
+          <Route
+            path="/report-creator"
+            element={<ReportCreator currentLanguage={currentLanguage} />}
+          />
+        </Routes>
         <Footer currentLanguage={currentLanguage} />
       </Box>
     </ThemeProvider>
