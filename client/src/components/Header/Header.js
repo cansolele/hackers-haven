@@ -1,16 +1,19 @@
-import style from "./Header.module.css";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
+import { useLocation, useNavigate } from "react-router-dom";
 import hh_logo from "./hh_logo.svg";
-import { Typography } from "@mui/material";
-import Modal from "@mui/material/Modal";
+
+import style from "./Header.module.css";
 import config from "../../config";
 
 const Header = ({ mode, setMode, currentLanguage, setCurrentLanguage }) => {

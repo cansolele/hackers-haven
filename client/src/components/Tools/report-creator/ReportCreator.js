@@ -17,6 +17,7 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SendIcon from "@mui/icons-material/Send";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import DownloadIcon from "@mui/icons-material/Download";
 
 import style from "./ReportCreator.module.css";
 import config from "../../../config";
@@ -86,7 +87,7 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
           : "Загрузите отчет в формате .xml или .pdf (результаты могут быть менее точными)"}
       </Typography>
       <form onSubmit={handleSubmit}>
-        <FormControl>
+        <FormControl disabled>
           <FormLabel id="scanner select">
             {currentLanguage === "ENG"
               ? "Select Vulnerability Scanner"
@@ -102,6 +103,11 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
               value="Max Patrol"
               control={<Radio />}
               label="Max Patrol"
+            />
+            <FormControlLabel
+              value="Nexpose"
+              control={<Radio />}
+              label="Nexpose"
             />
             <FormControlLabel
               value="Acunetix"
@@ -156,9 +162,14 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
         </Button>
       </form>
       {!isLoading && downloadLink && (
-        <a href={downloadLink}>
+        <Button
+          onClick={() => (window.location.href = downloadLink)}
+          type="button"
+          variant="contained"
+          endIcon={<DownloadIcon />}
+        >
           {currentLanguage === "ENG" ? "Download table" : "Скачать таблицу"}
-        </a>
+        </Button>
       )}
     </Box>
   );

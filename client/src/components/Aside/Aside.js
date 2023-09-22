@@ -1,12 +1,12 @@
-import style from "./Aside.module.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Box, IconButton, Typography } from "@mui/material";
+
 import nmap_icon from "./icons/nmap_icon.jpg";
 import nikto_icon from "./icons/nikto_icon.png";
-import rc_icon from "./icons/rc_icon.png"
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useNavigate, useLocation } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
-import { useState, useEffect } from "react";
+import rc_icon from "./icons/rc_icon.png";
+
+import style from "./Aside.module.css";
 
 const Aside = () => {
   const navigate = useNavigate();
