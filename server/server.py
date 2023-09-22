@@ -31,6 +31,7 @@ def download_file(timestamp):
     return send_file(output_file, as_attachment=True)
 
 
+# Route to run nmap
 @app.route("/run-nmap", methods=["POST"])
 def run_nmap():
     data = request.get_json()
@@ -51,6 +52,7 @@ def run_nmap():
     return Response(generate(), mimetype="text/plain")
 
 
+# Route to provide tool descriptions
 @app.route("/about", methods=["POST"])
 def about():
     data = request.get_json()

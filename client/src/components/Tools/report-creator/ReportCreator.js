@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Radio,
+  LinearProgress,
   RadioGroup,
   Select,
   Typography,
@@ -39,6 +40,19 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [downloadLink, setDownloadLink] = useState(null);
   const [tableLanguage, setTableLanguage] = useState("ENG");
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 1
+      );
+    }, 100);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleFileChange = useCallback(({ target }) => {
     setFile(target.files[0]);
@@ -65,6 +79,7 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
         );
 
         setDownloadLink(response.data.downloadLink);
+        setFile(!file);
       } catch (error) {
         console.error(error);
         setDownloadLink(null);
@@ -74,18 +89,15 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
     },
     [file, tableLanguage]
   );
+
   return (
-    <Box className={style.report_creator}>
+    <Box className={style.report_creator} sx={{ textAlign: "center" }}>
       <Typography variant="h4">
         {currentLanguage === "ENG"
           ? "Create exploits table"
           : "Создать таблицу c эксплоитами"}
       </Typography>
-      <Typography>
-        {currentLanguage === "ENG"
-          ? "Upload report in .xml(only RedCheck) or .pdf(results may be less accurate) format"
-          : "Загрузите отчет в формате .xml или .pdf (результаты могут быть менее точными)"}
-      </Typography>
+
       <form onSubmit={handleSubmit}>
         <FormControl disabled>
           <FormLabel id="scanner select">
@@ -133,44 +145,78 @@ const ReportCreator = React.memo(({ currentLanguage }) => {
             </MenuItem>
           </Select>
         </FormControl>
-        <Button
-          component="label"
-          variant="contained"
-          startIcon={<CloudUploadIcon />}
-          disabled={isLoading}
+        {file ? (
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {currentLanguage === "ENG"
+              ? `Uploaded File: ${file.name}`
+              : `Загруженный файл: ${file.name}`}
+          </Typography>
+        ) : (
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {currentLanguage === "ENG"
+              ? "No file uploaded"
+              : "Файл не загружен"}
+          </Typography>
+        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            mt: 2,
+          }}
         >
-          {currentLanguage === "ENG" ? "Upload" : "Загрузить"}
-          <VisuallyHiddenInput
-            type="file"
-            accept=".xml, .pdf"
-            onChange={handleFileChange}
-          />
-        </Button>
-        <Button
-          type="submit"
-          disabled={!file || isLoading}
-          variant="contained"
-          endIcon={isLoading ? <HourglassBottomIcon /> : <SendIcon />}
-        >
-          {isLoading
-            ? currentLanguage === "ENG"
-              ? "Processing..."
-              : "Обработка..."
-            : currentLanguage === "ENG"
-            ? "Process"
-            : "Обработать"}
-        </Button>
+          <Box
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+              disabled={isLoading}
+            >
+              {currentLanguage === "ENG" ? "Upload" : "Загрузить"}
+              <VisuallyHiddenInput
+                type="file"
+                accept=".xml, .pdf"
+                onChange={handleFileChange}
+              />
+            </Button>
+            <Button
+              type="submit"
+              disabled={!file || isLoading}
+              variant="contained"
+              endIcon={isLoading ? <HourglassBottomIcon /> : <SendIcon />}
+              sx={{ ml: 2 }}
+            >
+              {isLoading
+                ? currentLanguage === "ENG"
+                  ? "Processing..."
+                  : "Обработка..."
+                : currentLanguage === "ENG"
+                ? "Process"
+                : "Обработать"}
+            </Button>
+          </Box>
+          <Button
+            disabled={isLoading || !downloadLink}
+            onClick={() => (window.location.href = downloadLink)}
+            type="button"
+            variant="contained"
+            endIcon={<DownloadIcon />}
+            sx={{ mt: 2 }}
+          >
+            {currentLanguage === "ENG" ? "Download table" : "Скачать таблицу"}
+          </Button>
+        </Box>
       </form>
-      {!isLoading && downloadLink && (
-        <Button
-          onClick={() => (window.location.href = downloadLink)}
-          type="button"
-          variant="contained"
-          endIcon={<DownloadIcon />}
-        >
-          {currentLanguage === "ENG" ? "Download table" : "Скачать таблицу"}
-        </Button>
-      )}
+
+      <LinearProgress
+        width="15%"
+        variant="determinate"
+        value={progress}
+        sx={{ mt: 2 }}
+      />
     </Box>
   );
 });
