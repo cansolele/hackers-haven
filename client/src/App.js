@@ -8,12 +8,12 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Theme from "./Theme";
 
-const MainPage = lazy(() => import("./components/MainPage/MainPage"));
-const Nikto = lazy(() => import("./components/Tools/nikto/Nikto"));
-const Nmap = lazy(() => import("./components/Tools/nmap/Nmap"));
-const ReportCreator = lazy(() =>
-  import("./components/Tools/report-creator/ReportCreator")
-);
+import MainPage from "./components/MainPage/MainPage";
+import Nikto from "./components/Tools/nikto/Nikto";
+import Nmap from "./components/Tools/nmap/Nmap";
+import ReportCreator from "./components/Tools/report-creator/ReportCreator";
+
+import "./App.css";
 
 const App = () => {
   const [mode, setMode] = useState(

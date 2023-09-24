@@ -22,7 +22,7 @@ const createCustomTheme = (mode) => {
   const primaryMain = mode === "dark" ? "#366096" : "#3f51b5";
   const secondaryMain = mode === "dark" ? "#24344d" : "#f50057";
   const backgroundDefault = mode === "dark" ? "#192231" : "#fafafa";
-  const backgroundPaper = mode === "dark" ? "#24344d" : "#fff";
+  const backgroundPaper = mode === "dark" ? "#24344d" : "#ebebeb";
   const textTitle = "#FFF";
 
   const palette = {

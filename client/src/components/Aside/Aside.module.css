@@ -8,7 +8,6 @@
   flex-direction: column;
   justify-content: flex-start;
   overflow: auto;
-  -ms-overflow-style: none;
 }
 .aside::-webkit-scrollbar {
   width: 0;

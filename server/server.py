@@ -1,5 +1,6 @@
-from flask import Flask, request, Response, send_file
+from flask import Flask, request, Response, send_file, jsonify
 import os
+import json
 from flask_cors import CORS as flask_cors
 from tool_descriptions import tool_descriptions
 import subprocess
@@ -29,7 +30,17 @@ def download_file(timestamp):
         return "File not found", 404
 
     return send_file(output_file, as_attachment=True)
+@app.route("/file-history", methods=["GET"])
+def file_history():
+    report_history_file = os.path.join(os.path.dirname(__file__), "info", "ReportHistory.json")
 
+    if not os.path.exists(report_history_file):
+        return jsonify([])
+
+    with open(report_history_file, "r") as json_file:
+        report_history = json.load(json_file)
+
+    return jsonify(report_history)
 
 # Route to run nmap
 @app.route("/run-nmap", methods=["POST"])
