@@ -1,5 +1,5 @@
 const config = Object.freeze({
-  apiURL: "API_URL here",
+  apiURL: "http://192.168.54.66:5001",
 });
 
 export default config;

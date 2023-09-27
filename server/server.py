@@ -30,9 +30,13 @@ def download_file(timestamp):
         return "File not found", 404
 
     return send_file(output_file, as_attachment=True)
+
+
 @app.route("/file-history", methods=["GET"])
 def file_history():
-    report_history_file = os.path.join(os.path.dirname(__file__), "info", "ReportHistory.json")
+    report_history_file = os.path.join(
+        os.path.dirname(__file__), "info", "ReportHistory.json"
+    )
 
     if not os.path.exists(report_history_file):
         return jsonify([])
@@ -41,6 +45,7 @@ def file_history():
         report_history = json.load(json_file)
 
     return jsonify(report_history)
+
 
 # Route to run nmap
 @app.route("/run-nmap", methods=["POST"])
@@ -73,4 +78,4 @@ def about():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=5001)
