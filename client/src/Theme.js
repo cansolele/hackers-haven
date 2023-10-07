@@ -45,6 +45,10 @@ const createCustomTheme = (mode) => {
       ...themeOptions.palette.text,
       title: textTitle,
     },
+    greenButton: {
+      main: "green",
+      hover: "darkgreen",
+    },
   };
 
   return createTheme({ palette });

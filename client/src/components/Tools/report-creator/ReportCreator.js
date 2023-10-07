@@ -7,7 +7,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import style from "./ReportCreator.module.css";
 
 const ReportCreator = React.memo(({ currentLanguage }) => {
-  const [exploitTableKeys, setExploitTableKeys] = useState([0]); // Начальный компонент всегда будет с ключом 0
+  const [exploitTableKeys, setExploitTableKeys] = useState([0]);
 
   const addExploitTable = useCallback(() => {
     setExploitTableKeys((prevKeys) => [...prevKeys, prevKeys.length]);
